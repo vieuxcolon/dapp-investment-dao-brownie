@@ -1,34 +1,26 @@
-# 1️⃣ Use official Python slim image
+# Base image
 FROM python:3.12-slim
 
-# 2️⃣ Set working directory inside container
+# Set working directory
 WORKDIR /workspace/packages/contracts
 
-# 3️⃣ Install system dependencies
+# Install OS dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         git \
         curl \
-        build-essential \
-    && rm -rf /var/lib/apt/lists/*
+        build-essential && \
+    rm -rf /var/lib/apt/lists/*
 
-# 4️⃣ Upgrade pip, setuptools, wheel
+# Upgrade pip and setuptools
 RUN python -m pip install --upgrade pip setuptools wheel
 
-# 5️⃣ Install Brownie, Web3, Py-solc-x, pytest
-RUN pip install --no-cache-dir eth-brownie web3 py-solc-x pytest
-
-# 6️⃣ Install specific Solidity compiler version
-RUN python -m solcx.install_solc 0.8.20
-
-# 7️⃣ Copy requirements.txt and install any additional packages
+# Install Python dependencies
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 8️⃣ Copy all project files into container
-COPY . .
+# Install Solidity compiler
+RUN python -m solcx.install_solc 0.8.20
 
-# 9️⃣ Set default network for Brownie (optional, can be overridden)
-ENV BROWNIE_NETWORK=development
-
-#  🔹 End of Dockerfile
+# Set working directory for future commands
+WORKDIR /workspace/packages/contracts
