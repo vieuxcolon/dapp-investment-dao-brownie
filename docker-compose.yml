@@ -1,0 +1,24 @@
+services:
+  contracts:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.contracts
+    container_name: dao-contracts
+    volumes:
+      - ./packages/contracts:/workspace/packages/contracts
+    networks:
+      - dao-network
+
+  frontend:
+    build:
+      context: ./packages/frontend
+      dockerfile: ../../docker/Dockerfile.frontend
+    container_name: dao-frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - dao-network
+
+networks:
+  dao-network:
+    driver: bridge
