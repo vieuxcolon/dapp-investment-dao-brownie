@@ -1,23 +1,18 @@
-# 1️⃣ Base image
+# Base image
 FROM node:18-slim
 
-# 2️⃣ Set working directory
+# Set working directory
 WORKDIR /workspace/packages/frontend
 
-# 3️⃣ Copy only package files first (to leverage Docker cache)
+# Copy package.json and install dependencies
 COPY package.json ./
-# Only copy package-lock.json if it exists
-COPY package-lock.json* ./
+RUN npm install
 
-# 4️⃣ Install dependencies
-RUN npm install --legacy-peer-deps
-
-# 5️⃣ Copy the rest of the frontend source
+# Copy all frontend files
 COPY . .
 
-# 6️⃣ Expose Vite port
+# Expose port (aligned with docker-compose)
 EXPOSE 5173
 
-# 7️⃣ Default command to run the dev server
+# Start frontend dev server
 CMD ["npm", "run", "dev"]
-
