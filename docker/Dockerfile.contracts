@@ -1,41 +1,36 @@
-# 1️⃣ Base image
-FROM python:3.11-slim
+# ────────── Dockerfile.contracts ──────────
 
-# 2️⃣ Set working directory
+# Base image
+FROM python:3.12-slim
+
+# Set working directory
 WORKDIR /workspace/packages/contracts
 
-# 3️⃣ Install essential system packages
+# Install system dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         git \
         curl \
         build-essential \
-        libssl-dev \
-        libffi-dev \
-        libgmp-dev \
-        unzip \
-        pkg-config \
         && rm -rf /var/lib/apt/lists/*
 
-# 4️⃣ Upgrade pip, setuptools, and wheel (prevents pkg_resources errors)
+# Upgrade pip and install core Python packages
 RUN python -m pip install --upgrade pip setuptools wheel
 
-# 5️⃣ Install Brownie and dependencies
-RUN pip install --no-cache-dir eth-brownie web3 py-solc-x pytest
+# Install Brownie, Web3, py-solc-x, pytest
+RUN pip install --no-cache-dir eth-brownie web3 py-solc-x pytest python-dotenv requests
 
-# 6️⃣ Optional: Preinstall specific Solidity compiler version
-# This ensures Brownie won't fail downloading solc at runtime
+# Install Solidity compiler version 0.8.20
 RUN python -m solcx.install_solc 0.8.20
 
-# 7️⃣ Copy only requirements if present (future-proof)
-COPY requirements.txt ./
+# Copy the contracts source code
+COPY contracts/ ./contracts
+COPY scripts/ ./scripts
+COPY tests/ ./tests
+
+# Optional: copy requirements.txt if exists and install
+COPY requirements.txt ./ || echo "No requirements.txt found, skipping..."
 RUN if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; fi
 
-# 8️⃣ Copy project files
-COPY . .
-
-# 9️⃣ Expose port for Brownie console / Ganache (optional)
-EXPOSE 8545
-
-# 10️⃣ Default command (start a bash session in container)
-CMD ["/bin/bash"]
+# Set default command to open brownie console
+CMD ["brownie", "console"]
