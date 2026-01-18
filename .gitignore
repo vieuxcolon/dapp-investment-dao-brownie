@@ -1,17 +1,12 @@
-# Python
-__pycache__/
-*.pyc
-.env
-
 # Node
 node_modules/
 dist/
-.vite/
+.env
 
-# Brownie
+# Python / Brownie
+__pycache__/
 build/
 reports/
-brownie-config.yaml
 
 # Docker
 *.log
