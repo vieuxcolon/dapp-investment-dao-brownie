@@ -6,7 +6,6 @@ services:
     container_name: dao-contracts
     volumes:
       - ./packages/contracts:/workspace/packages/contracts
-      - contracts_node_modules:/workspace/packages/contracts/node_modules
     networks:
       - dao-network
 
@@ -19,14 +18,9 @@ services:
       - "5173:5173"
     volumes:
       - ./packages/frontend:/workspace/packages/frontend
-      - frontend_node_modules:/workspace/packages/frontend/node_modules
     networks:
       - dao-network
 
 networks:
   dao-network:
     driver: bridge
-
-volumes:
-  contracts_node_modules:
-  frontend_node_modules:
