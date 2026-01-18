@@ -1,15 +1,24 @@
-# Brownie framework
+# Core Brownie framework
 eth-brownie==1.20.3
 
 # Web3 interface for Ethereum
 web3==6.10.0
 
-# For local testing and utilities
-pytest==7.4.2
-pytest-xdist==3.3.1
+# Solidity compiler interface
+py-solc-x==1.1.1
+py-solc-ast==1.2.10
+
+# For local testing
+pytest==6.2.5
+pytest-xdist==2.5.0
 
 # Optional: dotenv support if using environment variables
 python-dotenv==1.0.0
 
-# Optional: IPFS / HTTP requests if using oracles or IPFS
+# Optional: HTTP requests (e.g., for oracles or APIs)
 requests==2.32.0
+
+# Common utilities
+psutil==5.9.8
+python-dateutil==2.8.2
+
