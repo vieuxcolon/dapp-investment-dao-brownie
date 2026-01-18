@@ -1,22 +1,23 @@
-#  Base image
+# 1️⃣ Base image
 FROM node:18-slim
 
-#  Set working directory
+# 2️⃣ Set working directory
 WORKDIR /workspace/packages/frontend
 
-#  Copy only package files first (to leverage Docker cache)
+# 3️⃣ Copy only package files first (to leverage Docker cache)
 COPY package.json ./
 # Only copy package-lock.json if it exists
 COPY package-lock.json* ./
 
-#  Install dependencies
+# 4️⃣ Install dependencies
 RUN npm install --legacy-peer-deps
 
-#  Copy the rest of the frontend source
+# 5️⃣ Copy the rest of the frontend source
 COPY . .
 
-#  Expose Vite port
+# 6️⃣ Expose Vite port
 EXPOSE 5173
 
-#  Default command to run the dev server
+# 7️⃣ Default command to run the dev server
 CMD ["npm", "run", "dev"]
+
