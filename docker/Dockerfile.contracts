@@ -1,0 +1,15 @@
+FROM python:3.12-slim
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Brownie
+RUN pip install --no-cache-dir eth-brownie
+
+WORKDIR /workspace/packages/contracts
+
+CMD ["bash"]
