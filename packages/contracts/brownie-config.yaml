@@ -1,0 +1,12 @@
+project_structure:
+  build: build
+  contracts: contracts
+  interfaces: interfaces
+  reports: reports
+  scripts: scripts
+  tests: tests
+
+networks:
+  development:
+    cmd_settings:
+      port: 8545
